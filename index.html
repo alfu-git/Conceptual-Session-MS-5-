@@ -25,14 +25,54 @@
     />
 
     <!-- font awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body class="bg-[#EEEEEE] min-h-screen">
     <header>
       <section class="pt-7 mb-5 container mx-auto px-5">
-        <h1 class="text-5xl text-[#4ADD7F] font-bold text-center">Choose Your Trees</h1>
+        <h1 class="text-5xl text-[#4ADD7F] font-bold text-center">
+          Choose Your Trees
+        </h1>
       </section>
     </header>
+
+    <main>
+      <section class="container mx-auto px-5">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+          <!-- category btn section -->
+          <div class="col-span-3 p-3 bg-[white] rounded-xl">
+            <h2 class="mb-3 text-2xl font-medium text-center">Categories</h2>
+            <button class="mb-2 btn bg-[#4add7f] shadow-sm w-full text-[white] font-medium">
+              All Trees
+            </button>
+
+            <div id="category-btn-container" class="space-y-2">
+              <!-- show all btn by loaded from database -->
+            </div>
+          </div>
+
+          <!-- all trees section -->
+          <div class="col-span-6 p-3 bg-[white] rounded-xl">
+            <div class="grid grid-cols-3">
+
+            </div>
+          </div>
+
+          <!-- cart section -->
+          <div class="col-span-3 p-3 bg-[white] rounded-xl text-2xl font-medium text-center">
+            <h2>Cart</h2>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      </section>
+    </main>
 
     <!-- JS -->
     <script src="./js/script.js"></script>

@@ -3,17 +3,16 @@ const getId = (id) => {
   return document.getElementById(id);
 };
 
-///// create loading function /////
+///// loading function /////
 const toggleLoading = (status) => {
-  const loadingSec = getId('loading-sec');
+  const loadingSec = getId("loading-sec");
 
-  if(status) {
-    loadingSec.classList.replace('hidden', 'flex');
+  if (status) {
+    loadingSec.classList.replace("hidden", "flex");
+  } else {
+    loadingSec.classList.replace("flex", "hidden");
   }
-  else {
-    loadingSec.classList.replace('flex', 'hidden');
-  }
-}
+};
 
 ///// load all category btn & show all btn /////
 // load
@@ -32,11 +31,38 @@ const showCategoryBtn = (allBtn) => {
 
   allBtn.forEach((btn) => {
     const btnCard = document.createElement("button");
-    btnCard.className =
-      "btn bg-transparent border border-[black] shadow-sm w-full text-gray-600 font-medium";
+    btnCard.className = "category-btn inactive btn w-full font-medium";
     btnCard.innerText = `${btn.category_name}`;
-
     categoryBtnContainer.appendChild(btnCard);
+
+    activeBtn(btnCard, btn.id);
+  });
+};
+
+///// active button & filter tree function /////
+const activeBtn = (clickedBtn, btnId) => {
+  clickedBtn.addEventListener("click", async () => {
+    // active btn
+    const allCategoryBtns = document.querySelectorAll(
+      "#default-active, .category-btn",
+    );
+
+    allCategoryBtns.forEach((categoryBtn) => {
+      categoryBtn.classList.remove("active");
+      categoryBtn.classList.add("inactive");
+    });
+    clickedBtn.classList.remove("inactive");
+    clickedBtn.classList.add("active");
+
+    // filter tree function
+    toggleLoading(true);
+
+    const url = `https://openapi.programming-hero.com/api/category/${btnId}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    showAllTrees(data.plants);
+
+    toggleLoading(false);
   });
 };
 
@@ -61,11 +87,18 @@ const showAllTrees = (trees) => {
 
   trees.forEach((tree) => {
     const treeCard = document.createElement("div");
-    treeCard.className = "card bg-base-100 shadow-sm";
+    if (tree.price > 500) {
+      treeCard.className =
+        "card bg-base-100 border-b-3 border-red-500 shadow-sm";
+    } else {
+      treeCard.className =
+        "card bg-base-100 border-b-3 border-[#4ADD7F] shadow-sm";
+    }
     treeCard.innerHTML = `
     <figure>
       <img
-        class="h-40 w-full object-cover"
+        onclick="openTreeModal(${tree.id})"
+        class="h-40 w-full object-cover cursor-pointer"
         src="${tree.image}"
         alt="${tree.name}"
         title="${tree.name}"
@@ -86,4 +119,57 @@ const showAllTrees = (trees) => {
 
     allTreesContainer.appendChild(treeCard);
   });
+};
+
+///// active all trees btn /////
+const allTreesBtn = getId("default-active");
+allTreesBtn.addEventListener("click", () => {
+  const allCategoryBtns = document.querySelectorAll(
+    "#default-active, .category-btn",
+  );
+
+  allCategoryBtns.forEach((categoryBtn) => {
+    categoryBtn.classList.remove("active");
+    categoryBtn.classList.add("inactive");
+  });
+  allTreesBtn.classList.remove("inactive");
+  allTreesBtn.classList.add("active");
+
+  loadAllTrees();
+});
+
+///// set modal /////
+const treeModal = getId("tree-modal");
+
+const openTreeModal = async (treeId) => {
+  const url = `https://openapi.programming-hero.com/api/plant/${treeId}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  const modalDetails = data.plants;
+
+  const treeModalContainer = getId("tree-modal-container");
+  treeModalContainer.innerHTML = "";
+
+  const modalCard = document.createElement("div");
+  modalCard.innerHTML = `
+    <h3 class="mb-3 text-xl font-semibold max-w-fit hover:text-[#4ADD7F] cursor-pointer">${modalDetails.name}</h3>
+    <figure class="mb-7">
+      <img
+        class="h-60 w-full object-cover  rounded-xl"
+        src="${modalDetails.image}"
+        alt="${modalDetails.name}"
+        title="${modalDetails.name}"
+      />
+    </figure>
+    <span class="block mb-3 text-gray-600 font-medium"> Category:
+      <span class="inline-block max-w-fit py-1 px-3 border border-[#4ADD7F] rounded-lg text-[#4ADD7F]">
+        ${modalDetails.category}
+      </span>
+    </span>
+    <p class="mb-3 text-sm opacity-80">${modalDetails.description}</p>
+    <span class="text-[#4ADD7F] text-3xl font-semibold">$${modalDetails.price}</span>
+  `;
+  treeModalContainer.appendChild(modalCard);
+
+  treeModal.showModal();
 };

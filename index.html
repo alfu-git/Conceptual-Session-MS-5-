@@ -46,10 +46,13 @@
       <section class="container mx-auto px-5">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
           <!-- category btn section -->
-          <div class="max-h-fit col-span-3 p-3 bg-[white] rounded-xl">
+          <div
+            class="max-h-fit col-span-3 p-3 bg-[white] rounded-xl lg:sticky lg:-top-12 lg:z-50"
+          >
             <h2 class="mb-3 text-2xl font-medium text-center">Categories</h2>
             <button
-              class="mb-2 btn bg-[#4add7f] shadow-sm w-full text-[white] font-medium"
+              id="default-active"
+              class="mb-2 btn active w-full font-medium"
             >
               All Trees
             </button>
@@ -62,18 +65,44 @@
           <!-- all trees section -->
           <div class="col-span-6 p-3 bg-[white] rounded-xl">
             <!-- loading -->
-            <div id="loading-sec" class="h-40 hidden items-center justify-center">
+            <div
+              id="loading-sec"
+              class="h-20 hidden items-center justify-center"
+            >
               <span class="loading loading-spinner text-[#4ADD7F]"></span>
             </div>
 
             <!-- all trees -->
-            <div id="all-trees-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div
+              id="all-trees-container"
+              class="grid grid-cols-1 sm:grid-cols-2 gap-4"
+            >
               <!-- show all trees loaded by API -->
+            </div>
+
+            <!-- modal -->
+            <div>
+              <!-- Open the modal using ID.showModal() method -->
+              <dialog id="tree-modal" class="modal">
+                <div class="modal-box">
+                  <div id="tree-modal-container">
+
+                  </div>
+
+                  <div class="modal-action">
+                    <form method="dialog">
+                      <!-- if there is a button in form, it will close the modal -->
+                      <button class="btn">Close</button>
+                    </form>
+                  </div>
+                </div>
+              </dialog>
             </div>
           </div>
 
           <!-- cart section -->
-          <div class="max-h-fit col-span-3 p-3 bg-[white] rounded-xl text-2xl font-medium text-center"
+          <div
+            class="max-h-fit col-span-3 p-3 bg-[white] rounded-xl text-2xl font-medium text-center lg:sticky lg:top-0 lg:z-20"
           >
             <h2>Cart</h2>
             <div></div>

@@ -1,3 +1,24 @@
 * {
   font-family: "Ubuntu", sans-serif;
 }
+
+.active {
+  color: white;
+  background: #4add7f;
+  box-shadow:
+    0 1px 3px 0 rgb(0 0 0 / 0.1),
+    0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.inactive {
+  color: gray;
+  background: transparent;
+  border: 1px solid black;
+  box-shadow:
+    0 1px 3px 0 rgb(0 0 0 / 0.1),
+    0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.inactive:hover {
+  background: #EEEEEE;
+}

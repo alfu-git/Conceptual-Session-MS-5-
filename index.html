@@ -44,7 +44,7 @@
 
     <main>
       <section class="container mx-auto px-5">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-7.5">
           <!-- category btn section -->
           <div
             class="max-h-fit col-span-3 p-3 bg-[white] rounded-xl lg:sticky lg:-top-12 lg:z-50"
@@ -85,9 +85,7 @@
               <!-- Open the modal using ID.showModal() method -->
               <dialog id="tree-modal" class="modal">
                 <div class="modal-box">
-                  <div id="tree-modal-container">
-
-                  </div>
+                  <div id="tree-modal-container"></div>
 
                   <div class="modal-action">
                     <form method="dialog">
@@ -102,11 +100,46 @@
 
           <!-- cart section -->
           <div
-            class="max-h-fit col-span-3 p-3 bg-[white] rounded-xl text-2xl font-medium text-center lg:sticky lg:top-0 lg:z-20"
+            class="max-h-fit col-span-3 p-3 bg-[white] rounded-xl space-y-10 lg:sticky lg:top-0 lg:z-20"
           >
-            <h2>Cart</h2>
-            <div></div>
-            <div></div>
+            <div class="mt-2 flex justify-between items-center">
+              <h2 class="text-2xl font-medium">Cart</h2>
+              <div class="relative">
+                <i class="fa-solid fa-cart-shopping mr-3 text-xl"></i>
+                <span
+                  id="cart-icon-count"
+                  class="inline-block bg-[#EEEEEE] px-2 rounded-full font-medium absolute -top-4 right-0.5"
+                ></span>
+              </div>
+            </div>
+
+            <!-- cart-container -->
+            <div id="cart-container" class="space-y-3">
+              
+            </div>
+
+            <!-- cart empty text -->
+            <div
+              id="empty-text-content"
+              class="flex flex-col justify-center items-center text-center"
+            >
+              <p class="text-gray-600 font-medium opacity-70">
+                Your cart is empty.
+              </p>
+              <p class="text-gray-600 font-medium opacity-70">
+                Add trees to get started.
+              </p>
+            </div>
+
+            <!-- total amount section -->
+            <div class="py-2 px-4 bg-[#EEEEEE] rounded-lg">
+              <div class="flex justify-between items-center">
+                <span class="inline-block text-xl font-medium">Total:</span>
+                <span class="inline-block text-xl font-medium">
+                  $<span id="total-amount" class="inline-block">0</span>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

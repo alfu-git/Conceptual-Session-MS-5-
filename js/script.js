@@ -111,8 +111,8 @@ const showAllTrees = (trees) => {
       </p>
       <span class="category inline-block max-w-fit py-1 px-3 border border-[#4ADD7F] rounded-lg text-[#4ADD7F]">${tree.category}</span>
       <div class="flex items-center justify-between">
-        <span class="price text-[#4ADD7F] text-xl font-semibold">$${tree.price}</span>
-        <button class="cart-btn btn py-2 px-4 bg-[#4ADD7F] rounded-lg text-base-100">Cart</button>
+        <span class="price ${tree.price > 500 ? "text-red-600" : "text-[#4ADD7F]"} text-xl font-semibold">$${tree.price}</span>
+        <button onclick="addToCart(${tree.id}, '${tree.name}', ${tree.price})" class="cart-btn btn py-2 px-4 bg-[#4ADD7F] rounded-lg text-base-100">Cart</button>
       </div>
     </div>
     `;
@@ -172,4 +172,86 @@ const openTreeModal = async (treeId) => {
   treeModalContainer.appendChild(modalCard);
 
   treeModal.showModal();
+};
+
+///// cart function /////
+let allCartItems = [];
+
+// set cart icon count & text color
+const setCartIconCount = () => {
+  const cartIconCount = getId("cart-icon-count");
+
+  // add count color
+  cartIconCount.classList.remove("text-red-600", "text-[#4ADD7F]");
+
+  if (allCartItems.length === 0) {
+    cartIconCount.classList.add("text-red-600");
+  } else {
+    cartIconCount.classList.add("text-[#4ADD7F]");
+  }
+
+  cartIconCount.innerText = allCartItems.length;
+};
+setCartIconCount();
+
+const addToCart = (treeId, treeName, treePrice) => {
+  const existingItem = allCartItems.find((item) => item.treeName === treeName);
+  if (existingItem) {
+    existingItem.quantity++;
+  } else {
+    allCartItems.push({
+      treeId,
+      treeName,
+      treePrice,
+      quantity: 1,
+    });
+  }
+
+  showCartList();
+};
+
+const showCartList = () => {
+  const cartContainer = getId("cart-container");
+  cartContainer.innerHTML = "";
+
+  if (allCartItems.length === 0) {
+    getId('empty-text-content').classList.remove('hidden');
+    getId('total-amount').textContent = '0';
+  }
+  else {
+    getId('empty-text-content').classList.add('hidden');
+  }
+
+  let total = 0;
+  allCartItems.forEach((item) => {
+    total += item.treePrice * item.quantity;
+    const listCard = document.createElement("div");
+    listCard.className = "p-3 bg-[#EEEEEE] rounded-md shadow-sm";
+    listCard.innerHTML = `
+      <div class="flex justify-between">
+        <div>
+          <h4 class="text-xl font-bold">${item.treeName}</h4>
+          <span>${item.treePrice} X ${item.quantity}</span>
+        </div>
+        <span onclick="removeList(${item.treeId})" class="text-sm text-red-600 opacity-80 cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </span>
+      </div>
+
+      <span class="block text-right">$${item.treePrice * item.quantity}</span>
+    `;
+    cartContainer.appendChild(listCard);
+    setCartIconCount();
+  });
+
+  const totalAmount = getId("total-amount");
+  totalAmount.innerText = total;
+};
+
+// remove list from cart list
+const removeList = (id) => {
+  const updateCartItems = allCartItems.filter((item) => item.treeId !== id);
+  allCartItems = updateCartItems;
+  showCartList();
+  setCartIconCount();
 };
